@@ -34,7 +34,7 @@ from PyAres import AresAnalyzerService, AnalysisRequest, Analysis, AresDataType,
 
 def analyze(request: AnalysisRequest) -> Analysis:
     #Custom Analysis Logic
-    value = request.inputs.get("Input")
+    value = request.inputs.get("Analyzer_Input")
 
     print(f"Recevied Value: {value}")
 
@@ -50,5 +50,5 @@ if __name__ == "__main__":
     DemoAnalyzer = AresAnalyzerService(analyze, name, version, description,port=7102)
 
     #Add Analysis Parameters
-    DemoAnalyzer.add_analysis_parameter("Input", AresDataType.NUMBER)
+    DemoAnalyzer.add_analysis_parameter("Analyzer_Input", AresDataType.NUMBER)
     DemoAnalyzer.start()

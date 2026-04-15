@@ -36,7 +36,7 @@ from pyares_opencpc import OpenCPCAresWrapper
 # Settings
 device_name = "OpenCPC"
 device_description = "OpenAeros OpenCPC Condensation Particle Counter"
-serial_port = '/dev/ttys009'
+serial_port = '/dev/ttys008'
 network_port = 7101
 
 if __name__ == "__main__":
@@ -55,8 +55,11 @@ if __name__ == "__main__":
     )
 
     # Define and Register Command: Get Concentration
+    get_conc_struct = {
+        'concentration':DeviceSchemaEntry(AresDataType.NUMBER,"Current particle concentration")
+                        }
     get_conc_out = {
-        "concentration": DeviceSchemaEntry(AresDataType.NUMBER, "Current particle concentration", "p/cm^3")
+        "concentration": DeviceSchemaEntry(AresDataType.STRUCT, "Current particle concentration", "p/cm^3",struct_schema=get_conc_struct)
     }
     get_conc_desc = DeviceCommandDescriptor(
         name="Get Concentration",
@@ -75,8 +78,11 @@ if __name__ == "__main__":
             constraints=[0.2, 1.0, 2.0, 5.0, 10.0, 30.0, 60.0, 120.0] # Based on limits in the manual
         )
     }
+    set_avg_struct = {
+        "averaging_time": DeviceSchemaEntry(AresDataType.NUMBER, "The newly applied time averaging window")
+    }
     set_avg_out = {
-        "averaging_time": DeviceSchemaEntry(AresDataType.NUMBER, "The newly applied time averaging window", "s")
+        "averaging_time": DeviceSchemaEntry(AresDataType.STRUCT, "The newly applied time averaging window", "s")
     }
     set_avg_desc = DeviceCommandDescriptor(
         name="Set Time Averaging",
@@ -87,11 +93,14 @@ if __name__ == "__main__":
     service.add_new_command(set_avg_desc, device_wrapper.set_time_averaging)
 
     # Define and Register Command: Get Diagnostics
-    get_diag_out = {
+    get_diag_struct = {
         "flow_rate": DeviceSchemaEntry(AresDataType.NUMBER, "Current optics flow rate", "ccm"),
         "saturator_temperature": DeviceSchemaEntry(AresDataType.NUMBER, "Current saturator temperature", "Celsius"),
         "condenser_temperature": DeviceSchemaEntry(AresDataType.NUMBER, "Current condenser temperature", "Celsius"),
         "tcr": DeviceSchemaEntry(AresDataType.NUMBER, "Threshold Count Ratio (TCR)", "Ratio")
+    }
+    get_diag_out = {
+        "diagnostics":DeviceSchemaEntry(AresDataType.STRUCT,"Diagnostic Information")
     }
     get_diag_desc = DeviceCommandDescriptor(
         name="Get Diagnostics",
@@ -102,8 +111,11 @@ if __name__ == "__main__":
     service.add_new_command(get_diag_desc, device_wrapper.get_diagnostics)
 
     # Define and Register Command: Get Buffer Index
+    get_buffer_struct = {
+        "buffer_index": DeviceSchemaEntry(AresDataType.NUMBER,"Monotonically increasing count frame index")
+    }
     get_buffer_index_out = {
-        "buffer_index": DeviceSchemaEntry(AresDataType.NUMBER, "Monotonically increasing count frame index", "")
+        "buffer_index": DeviceSchemaEntry(AresDataType.STRUCT, "Monotonically increasing count frame index", "",struct_schema=get_buffer_struct)
     }
     get_buffer_index_desc = DeviceCommandDescriptor(
         name="Get Buffer Index",
@@ -114,8 +126,11 @@ if __name__ == "__main__":
     service.add_new_command(get_buffer_index_desc, device_wrapper.get_buffer_index)
 
     # Define and Register Command: Get TCR
+    get_tcr_struct = {
+        "tcr":DeviceSchemaEntry(AresDataType.NUMBER,"Time-averaged Threshold Count Ratio")
+    }
     get_tcr_out = {
-        "tcr": DeviceSchemaEntry(AresDataType.NUMBER, "Time-averaged Threshold Count Ratio", "Ratio")
+        "tcr": DeviceSchemaEntry(AresDataType.STRUCT, "Time-averaged Threshold Count Ratio", "Ratio",struct_schema=get_tcr_struct)
     }
     get_tcr_desc = DeviceCommandDescriptor(
         name="Get TCR",
@@ -126,8 +141,11 @@ if __name__ == "__main__":
     service.add_new_command(get_tcr_desc, device_wrapper.get_tcr)
 
     # Define and Register Command: Get Flow Rate
+    get_flow_struct = {
+        "flow_rate":DeviceSchemaEntry(AresDataType.NUMBER,"Current time averaged flow")
+    }
     get_flow_out = {
-        "flow_rate": DeviceSchemaEntry(AresDataType.NUMBER, "Current time averaged flow", "ccm")
+        "flow_rate": DeviceSchemaEntry(AresDataType.STRUCT, "Current time averaged flow", "ccm")
     }
     get_flow_desc = DeviceCommandDescriptor(
         name="Get Flow Rate",
@@ -138,8 +156,11 @@ if __name__ == "__main__":
     service.add_new_command(get_flow_desc, device_wrapper.get_flow)
 
     # Define and Register Command: Get Saturator Temperature
+    get_sat_temp_struct = {
+        "saturator_temperature": DeviceSchemaEntry(AresDataType.NUMBER, "Current saturator temperature")
+    }
     get_sat_temp_out = {
-        "saturator_temperature": DeviceSchemaEntry(AresDataType.NUMBER, "Current saturator temperature", "Celsius")
+        "saturator_temperature": DeviceSchemaEntry(AresDataType.STRUCT, "Current saturator temperature", "Celsius",struct_schema=get_sat_temp_struct)
     }
     get_sat_temp_desc = DeviceCommandDescriptor(
         name="Get Saturator Temperature",
@@ -150,8 +171,11 @@ if __name__ == "__main__":
     service.add_new_command(get_sat_temp_desc, device_wrapper.get_saturator_temp)
 
     # Define and Register Command: Get Condenser Temperature
+    get_cond_temp_struct = {
+        "saturator_temperature": DeviceSchemaEntry(AresDataType.NUMBER, "Current condenser temperature")
+    }
     get_cond_temp_out = {
-        "condenser_temperature": DeviceSchemaEntry(AresDataType.NUMBER, "Current condenser temperature", "Celsius")
+        "condenser_temperature": DeviceSchemaEntry(AresDataType.STRUCT, "Current condenser temperature", "Celsius",struct_schema=get_cond_temp_struct)
     }
     get_cond_temp_desc = DeviceCommandDescriptor(
         name="Get Condenser Temperature",
@@ -162,8 +186,11 @@ if __name__ == "__main__":
     service.add_new_command(get_cond_temp_desc, device_wrapper.get_condenser_temp)
 
     # Define and Register Command: Get Sample Dewpoint
+    get_dewpoint_struct ={
+        "sample_dewpoint": DeviceSchemaEntry(AresDataType.NUMBER, "Inlet sample dewpoint")
+    }
     get_dewpoint_out = {
-        "sample_dewpoint": DeviceSchemaEntry(AresDataType.NUMBER, "Inlet sample dewpoint", "Celsius")
+        "sample_dewpoint": DeviceSchemaEntry(AresDataType.STRUCT, "Inlet sample dewpoint", "Celsius",struct_schema=get_dewpoint_struct)
     }
     get_dewpoint_desc = DeviceCommandDescriptor(
         name="Get Sample Dewpoint",
@@ -174,8 +201,11 @@ if __name__ == "__main__":
     service.add_new_command(get_dewpoint_desc, device_wrapper.get_sample_dewpoint)
 
     # Define and Register Command: Get Status
+    get_status_struct = {
+        "status": DeviceSchemaEntry(AresDataType.STRING, "Active warnings/errors from the instrument",)
+    }
     get_status_out = {
-        "status": DeviceSchemaEntry(AresDataType.STRING, "Active warnings/errors from the instrument", "String")
+        "status": DeviceSchemaEntry(AresDataType.STRUCT, "Active warnings/errors from the instrument", "String",struct_schema=get_status_struct)
     }
     get_status_desc = DeviceCommandDescriptor(
         name="Get Status",
@@ -186,8 +216,11 @@ if __name__ == "__main__":
     service.add_new_command(get_status_desc, device_wrapper.get_status)
 
     # Define and Register Command: Get Time Averaging
+    get_time_avg_struct = {
+         "averaging_time": DeviceSchemaEntry(AresDataType.NUMBER, "Current time averaging in seconds")
+    }
     get_time_avg_out = {
-        "averaging_time": DeviceSchemaEntry(AresDataType.NUMBER, "Current time averaging in seconds", "s")
+        "averaging_time": DeviceSchemaEntry(AresDataType.STRUCT, "Current time averaging in seconds", "s",struct_schema=get_time_avg_struct)
     }
     get_time_avg_desc = DeviceCommandDescriptor(
         name="Get Time Averaging",
@@ -198,8 +231,11 @@ if __name__ == "__main__":
     service.add_new_command(get_time_avg_desc, device_wrapper.get_time_averaging)
 
     # Define and Register Command: Get Header
+    get_header_struct = {
+        "header": DeviceSchemaEntry(AresDataType.STRING, "Header information for variable list")
+    }
     get_header_out = {
-        "header": DeviceSchemaEntry(AresDataType.STRING, "Header information for variable list", "")
+        "header": DeviceSchemaEntry(AresDataType.STRUCT, "Header information for variable list", "",struct_schema=get_header_struct)
     }
     get_header_desc = DeviceCommandDescriptor(
         name="Get Header",
@@ -210,8 +246,11 @@ if __name__ == "__main__":
     service.add_new_command(get_header_desc, device_wrapper.get_header)
 
     # Define and Register Command: Get All Data
+    get_all_data_struct = {
+        "all_data": DeviceSchemaEntry(AresDataType.NUMBER_ARRAY, "All data points from R.ALL command")
+    }
     get_all_data_out = {
-        "all_data": DeviceSchemaEntry(AresDataType.NUMBER_ARRAY, "All data points from R.ALL command", "Float")
+        "all_data": DeviceSchemaEntry(AresDataType.STRUCT, "All data points from R.ALL command", "Float",struct_schema=get_all_data_struct)
     }
     get_all_data_desc = DeviceCommandDescriptor(
         name="Get All Data",
@@ -220,6 +259,7 @@ if __name__ == "__main__":
         output_schema=get_all_data_out
     )
     service.add_new_command(get_all_data_desc, device_wrapper.get_all_data)
+
     # TODO: Need to figure out how ARES OS is going to handle streamed data like this
     # # Define and Register Command: Stream Data
     # stream_data_in = {
@@ -265,8 +305,11 @@ if __name__ == "__main__":
     set_echo_in = {
         "state": DeviceSchemaEntry(AresDataType.BOOLEAN, "Echo state (True/False)", "")
     }
+    set_echo_struct = {
+        "echo": DeviceSchemaEntry(AresDataType.BOOLEAN,"Echo sate")
+    }
     set_echo_out = {
-        "echo": DeviceSchemaEntry(AresDataType.BOOLEAN, "Echo state", "")
+        "echo": DeviceSchemaEntry(AresDataType.STRUCT, "Echo state", "",struct_schema=set_echo_struct)
     }
     set_echo_desc = DeviceCommandDescriptor(
         name="Set Echo",
@@ -280,8 +323,11 @@ if __name__ == "__main__":
     set_response_in = {
         "state": DeviceSchemaEntry(AresDataType.BOOLEAN, "Response state (True/False)", "")
     }
+    set_response_struct = {
+         "response": DeviceSchemaEntry(AresDataType.BOOLEAN, "Response state")
+    }
     set_response_out = {
-        "response": DeviceSchemaEntry(AresDataType.BOOLEAN, "Response state", "")
+        "response": DeviceSchemaEntry(AresDataType.STRUCT, "Response state", "",struct_schema=set_response_struct)
     }
     set_response_desc = DeviceCommandDescriptor(
         name="Set Response",
