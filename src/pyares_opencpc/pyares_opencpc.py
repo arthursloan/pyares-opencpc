@@ -66,20 +66,16 @@ class OpenCPCAresWrapper:
 
     # --- ARES Command Methods ---
     
-    def get_concentration(self) -> Dict[str, Any]:
+    def get_concentration(self) -> float:
         """ARES Command: Retrieves the current particle concentration."""
         print("[Info] Recevied Command get_concentration!")
-        return {
-            "concentration": self.cpc.get_concentration()
-        }
+        return self.cpc.get_concentration()
 
-    def set_time_averaging(self, seconds: float) -> Dict[str, Any]:
+    def set_time_averaging(self, seconds: float) -> float:
         """ARES Command: Sets the time averaging window."""
         self.cpc.set_time_averaging(seconds)
         print("[Info] Received Command set_time_averaging!")
-        return {
-            "averaging_time": self.cpc.get_time_averaging()
-        }
+        return self.cpc.get_time_averaging()
 
     def get_diagnostics(self) -> Dict[str, Any]:
         """ARES Command: Retrieves all core diagnostic metrics at once."""
@@ -91,75 +87,55 @@ class OpenCPCAresWrapper:
             "tcr": self.cpc.get_tcr()
         }
     
-    def get_buffer_index(self) -> Dict[str, Any]:
+    def get_buffer_index(self) -> int:
         """ARES Command: Reads monotonically increasing count frame index."""
         print("[Info] Received Command get_buffer_index!")
-        return {
-            "buffer_index": self.cpc.get_buffer_index()
-        }
+        return self.cpc.get_buffer_index()
 
-    def get_tcr(self) -> Dict[str, Any]:
+    def get_tcr(self) -> float:
         """ARES Command: Reads time-averaged Threshold Count Ratio (TCR) value."""
         print("[Info] Received Command get_tcr!")
-        return {
-            "tcr": self.cpc.get_tcr()
-        }
+        return self.cpc.get_tcr()
 
-    def get_flow(self) -> Dict[str, Any]:
+    def get_flow(self) -> float:
         """ARES Command: Reads current time averaged flow in ccm."""
         print("[Info] Received Command get_flow!")
-        return {
-            "flow_rate": self.cpc.get_flow()
-        }
+        return self.cpc.get_flow()
 
-    def get_saturator_temp(self) -> Dict[str, Any]:
+    def get_saturator_temp(self) -> float:
         """ARES Command: Reads saturator temperature and converts from mC to Celsius."""
         print("[Info] Received Command get_saturator_temp!")
-        return {
-            "saturator_temperature": self.cpc.get_saturator_temp()
-        }
+        return self.cpc.get_saturator_temp()
 
-    def get_condenser_temp(self) -> Dict[str, Any]:
+    def get_condenser_temp(self) -> float:
         """ARES Command: Reads condenser temperature and converts from mC to Celsius."""
         print("[Info] Received Command get_condenser_temp!")
-        return {
-            "condenser_temperature": self.cpc.get_condenser_temp()
-        }
+        return self.cpc.get_condenser_temp()
 
-    def get_sample_dewpoint(self) -> Dict[str, Any]:
+    def get_sample_dewpoint(self) -> float:
         """ARES Command: Reads inlet sample dewpoint in Celsius."""
         print("[Info] Received Command get_sample_dewpoint!")
-        return {
-            "sample_dewpoint": self.cpc.get_sample_dewpoint()
-        }
+        return self.cpc.get_sample_dewpoint()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> list[str]:
         """ARES Command: Reads the status of the instrument and returns active warnings/errors."""
         print("[Info] Received Command get_status!")
-        return {
-            "status": self.cpc.get_status()
-        }
+        return self.cpc.get_status()
 
-    def get_time_averaging(self) -> Dict[str, Any]:
+    def get_time_averaging(self) -> float:
         """ARES Command: Reads current time averaging in seconds."""
         print("[Info] Received Command get_time_averaging!")
-        return {
-            "averaging_time": self.cpc.get_time_averaging()
-        }
+        return self.cpc.get_time_averaging()
 
-    def get_header(self) -> Dict[str, Any]:
+    def get_header(self) -> str:
         """ARES Command: Provides header information for variable list of R.ALL."""
         print("[Info] Received Command get_header!")
-        return {
-            "header": self.cpc.get_header()
-        }
+        return self.cpc.get_header()
 
-    def get_all_data(self) -> Dict[str, Any]:
+    def get_all_data(self) -> list[float]:
         """ARES Command: Provides comma-separated response for all data points."""
         print("[Info] Received Command get_all_data!")
-        return {
-            "all_data": self.cpc.get_all_data()
-        }
+        return self.cpc.get_all_data()
 
     def stream_data(self, interval_sec: float) -> Dict[str, Any]:
         """ARES Command: Starts the data stream at the specified interval."""
@@ -178,25 +154,19 @@ class OpenCPCAresWrapper:
             "streaming": False
         }
 
-    def read_stream_line(self) -> Dict[str, Any]:
+    def read_stream_line(self) -> str:
         """ARES Command: Helper method to read a single line while streaming is active."""
         print("[Info] Received Command read_stream_line!")
-        return {
-            "stream_line": self.cpc.read_stream_line()
-        }
+        return self.cpc.read_stream_line()
 
-    def set_echo(self, state: bool) -> Dict[str, Any]:
+    def set_echo(self, state: bool) -> bool:
         """ARES Command: Configure terminal character readback (Echo)."""
         print("[Info] Received Command set_echo!")
         self.cpc.set_echo(state)
-        return {
-            "echo": state
-        }
+        return state
 
-    def set_response(self, state: bool) -> Dict[str, Any]:
+    def set_response(self, state: bool) -> bool:
         """ARES Command: Configure if commands should report success."""
         print("[Info] Received Command set_response!")
         self.cpc.set_response(state)
-        return {
-            "response": state
-        }
+        return state
