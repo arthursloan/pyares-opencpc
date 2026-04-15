@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools >= 61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests"]
+include = ["pyares_opencpc"]
+
+[project]
+name = "pyares_opencpc"
+version = "0.1.0"
+requires-python = ">= 3.10"
+authors = [{ name = "Arthur Slan", email = "artsloan@gmail.com" }]
+description = "Python Driver and PyAres Compatibility layer for the OpenAreos OpenCPC Condensation Particle Counter"
+license = "MIT"
+dependencies = [
+    "PyAres (>=0.4.0)",
+    "pyserial",
+]
+readme = "readme.md"
+
