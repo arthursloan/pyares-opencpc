@@ -4,7 +4,7 @@
 
 This package provides a robust, native Python interface to communicate with the physical OpenCPC hardware over serial, alongside a pre-configured `AresDeviceService` wrapper. This allows the OpenCPC to seamlessly integrate into an ARES (Autonomous REsearch System) self-driving laboratory environment.
 
-## ✨ Features
+## Features
 * **Native Python Driver (`OpenCPC`)**: Complete implementation of the OpenCPC serial protocol, supporting all basic and advanced hardware commands (e.g., fetching concentrations, setting averaging times, reading diagnostics).
 * **ARES Integration (`OpenCPCAresWrapper`)**: A fully operational PyAres device service that exposes the OpenCPC's capabilities to ARES as easily consumable network commands.
 * **Continuous State Monitoring**: Periodically logs hardware states (flow rates, temperatures, dewpoints) back to the ARES framework.
